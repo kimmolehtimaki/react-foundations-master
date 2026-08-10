@@ -27,25 +27,25 @@
     import React from "react"
     import { createRoot } from "react-dom/client"
 
-    const data = ["Swansea shirt", "Cardiff shirt", "Lamborghini"]
+    const data = ["Swansea shirt", "Cardiff shirt", "Lamborghini", "Ski poles"]
 
-    function ItemsList(props) {
-        return (
-            <div>
-                <h1>{props.heading}</h1>
-                <ul>
-                { 
-                    props.items.map((item, i) => <li key={i}>{item}</li>) 
-                }
-                </ul>
-                <hr/>
-                <small>Page generated at {props.timestamp}</small>
-            </div>
-        )
-    }
+    // function ItemsList(props) {
+    //     return (
+    //         <div>
+    //             <h1>{props.heading}</h1>
+    //             <ul>
+    //             { 
+    //                 props.items.map((item, i) => <li key={i}>{item}</li>) 
+    //             }
+    //             </ul>
+    //             <hr/>
+    //             <small>Page generated at {props.timestamp}</small>
+    //         </div>
+    //     )
+    // }
 
     // Alternative implementation of ItemsList, using destructuring.
-    /*
+    
     function ItemsList({heading, items, timestamp}) {
         return (
             <div>
@@ -60,7 +60,7 @@
             </div>
         )
     }
-    */
+    
 
     const root = createRoot(document.getElementById('root'))
     
