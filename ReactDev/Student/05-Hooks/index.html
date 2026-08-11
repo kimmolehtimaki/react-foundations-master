@@ -60,7 +60,67 @@
         new Film('Mission Impossible', 'Adventure', ' Hi-octane stunt fest')
     ]
     
-     function ItemsList({items, ordered}) {
+    function Library({books, films, tabularFormat}) {
+        if (tabularFormat) {
+            return (
+                <div>
+                    <h1>My Library</h1>
+                    <h2>Books</h2>
+                    <Table items={books} />
+                    <h2>Films</h2>
+                    <Table items={films} />
+                    <LikePanel />
+                </div>
+            )
+        }
+        else {
+            return (
+                <div>
+                    <h1>My Library</h1>
+                    <h2>Books</h2>
+                    <ItemsList items={books} ordered={true} />
+                    <h2>Films</h2>
+                    <ItemsList items={films} ordered={false} />
+                    <LikePanel />
+                </div>
+            )
+        }
+    }
+    
+    function LikePanel() {
+    const [myState, setMyState] = React.useState({
+        likes: 0
+    })
+
+    React.useEffect(() => {
+        console.log(`Likes count set to: ${myState.likes} at ${new Date().toLocaleTimeString()}`)
+    }, [myState.likes])
+
+    function onLike() {
+        setMyState({
+            likes: myState.likes + 1,
+        })
+    }
+
+    function onResetLikes() {
+        setMyState({
+            likes: 0,
+        })
+    }
+
+    return (
+        <>
+        <div className="likePanel">
+                <h2>Like My Library</h2>
+                <span>Likes: <b>{myState.likes}</b></span>
+                <button onClick={onLike}>Like</button>
+                <button className="reset-button" onClick={onResetLikes}>Reset like count</button>
+        </div>
+        </>
+    )
+    } 
+    
+    function ItemsList({items, ordered}) {
         const ListTag = ordered ? 'ol' : 'ul'
         return (
             <ListTag>
@@ -109,19 +169,15 @@
         )
     }
 
+   
+
     function App() {
         return (
-            <div>
-                <h1>My Library</h1>
-                <h2>Books list</h2>
-                <ItemsList items={books} ordered={true} />
-                <h2>Films list</h2>
-                <ItemsList items={films} ordered={true} />        
-                <h2>Books table</h2>
-                <Table items={books} />
-                <h2>Films table</h2>
-                <Table items={films} />
-            </div>
+            <Library
+                films={films}
+                books={books}
+                tabularFormat={true}
+            />
         )
     }
 

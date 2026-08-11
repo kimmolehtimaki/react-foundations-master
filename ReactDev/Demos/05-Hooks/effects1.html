@@ -18,6 +18,9 @@
 			width: 10%; 
 			margin-right: 2%;
 		}
+		.divider {
+  			border-top: 3px solid #ccc;
+		}
 	</style>
 </head>
 <body>
@@ -57,7 +60,6 @@
 
 			return (
 				<div className="gallery">
-					<button onClick={clearGallery}>Clear gallery</button>
 					<div>
 						{urls.map((url, i) =>
 							<img 
@@ -71,8 +73,12 @@
 							/>
 						)}
 					</div>
-					<div>Updated at {new Date().toString()}</div>
+						<div className="divider" />
 					<div>{mainContent}</div>
+						<div className="divider" />
+					<div>Updated at {new Date().toString()}</div>
+						<div className="divider" />
+					<button onClick={clearGallery}>Clear gallery</button>
 				</div>
 			)
 		}

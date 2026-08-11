@@ -26,3 +26,7 @@ thead {
 th {
     text-transform: capitalize;
 }
+
+.likePanel button {
+    margin-left: 1em;
+}
