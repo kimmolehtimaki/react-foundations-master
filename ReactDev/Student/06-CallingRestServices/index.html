@@ -47,20 +47,62 @@
         }
     }
 
-    const books = [
-        new Book('Millennium', 'Stieg Larsson'),
-        new Book('A Christmas Carol', 'Charles Dickens'),
-        new Book('The Son', 'Jo Nesbo'),
-    ]
-
-    const films = [
-        new Film('Airplane', 'Comedy', 'Classic plane spoof'),
-        new Film('Skyfall', 'Adventure', 'Bond spy yarn'),
-        new Film('Love Actually', 'RomCom', ' Hugh Grant playing Hugh Grant'),
-        new Film('Mission Impossible', 'Adventure', ' Hi-octane stunt fest')
-    ]
     
-    function Library({books, films, tabularFormat}) {
+    function Library({restBaseUrl, tabularFormat}) {
+        
+        // Define state variable to hold the books and the films (set both to empty)
+        const [books, setBooks] = React.useState([])
+        const [films, setFilms] = React.useState([])
+        
+        //Define an effect hook to get the books data from the REST service.
+        // i.e. Call React.useEffect(LAMBDA, []) to call REST service to get Books data
+        //React effect to fetch books data (only executed once, after first render)
+        React.useEffect(() => {
+            async function fetchBooks() {
+                try {
+                    const response = await window.fetch(`${restBaseUrl}/books`)
+                    
+                    if (!response.ok) {
+                        throw Error(response.statusText)
+                    }
+                    const rawBooks = await response.json();
+
+                    //The REST service returns raw JavaScript objects, so convert these into Books objects
+                    //Convert raw JS objects into book objects
+                    const booksObjects = rawBooks.map(b => new Book(b.title, b.author))
+                
+                    setBooks(booksObjects)
+
+                    } catch (error) {
+                        console.log(error)
+                }
+            }
+            fetchBooks()
+        }, [])
+    
+        
+        React.useEffect(() => {
+            async function fetchFilms() {
+                try {
+                    const response = await fetch(`${restBaseUrl}/films`)
+                                
+                if (!response.ok) {
+                    throw Error(response.statusText)
+                }
+                const rawFilms = await response.json();
+
+                const filmsObjects = rawFilms.map(
+                    f => new Film(f.name, f.genre, f.blurb)
+                )
+
+                setFilms(filmsObjects);
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        fetchFilms();
+        }, [])
+
         if (tabularFormat) {
             return (
                 <div>
@@ -180,9 +222,8 @@
     function App() {
         return (
             <Library 
-                films={films} 
-                books={books} 
-                tabularFormat={true} 
+            restBaseUrl='http://localhost:3000/library'  
+            tabularFormat={true} 
             />
         )
     }
