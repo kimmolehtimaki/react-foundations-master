@@ -47,6 +47,13 @@
         }
     }
 
+    const FooterPanel = React.memo(() =>
+        <>
+            <hr/>
+            <small>Page generated at {new Date().toLocaleTimeString()}</small>
+        </>
+    )
+
     function Library({restBaseUrl, tabularFormat}) {
 
         const [books, setBooks] = React.useState([])
@@ -86,13 +93,25 @@
             fetchFilms()
         }, [])
 
+        // Create s portion of memoized content.
+        const booksHeader = React.useMemo(() =>
+            <h2>Books [count {books.length}]</h2>,
+            [books]
+        )
+
+        // Create a portion of memoized content.
+        const filmsHeader = React.useMemo(() =>
+            <h2>Films [count {films.length}]</h2>,
+            [films]
+        )
+
         if (tabularFormat) {
             return (
                 <div>
                     <h1>My Library</h1>
-                    <h2>Books</h2>
+                    <h2>{booksHeader}</h2>
                     <Table items={books} />
-                    <h2>Films</h2>
+                    <h2>{filmsHeader}</h2>
                     <Table items={films} />
                     <LikePanel />
                 </div>
@@ -102,9 +121,9 @@
             return (
                 <div>
                     <h1>My Library</h1>
-                    <h2>Books</h2>
+                    <h2>{booksHeader}</h2>
                     <ItemsList items={books} ordered={true} />
-                    <h2>Films</h2>
+                    <h2>{filmsHeader}</h2>
                     <ItemsList items={films} />       
                     <LikePanel /> 
                 </div>
@@ -139,6 +158,7 @@
                 <span>Likes: <b>{myState.likes}</b></span>&nbsp;
                 <button onClick={onLike}>Like</button>
                 <button onClick={onResetLikes}>Reset like count</button>
+                <FooterPanel />
             </div>
         )
     }
