@@ -114,7 +114,6 @@
                     <h2>{filmsHeader}</h2>
                     <Table items={films} />
                     <LikePanel />
-                    <FooterPanel />
                 </div>
             )
         }
@@ -127,7 +126,6 @@
                     <h2>{filmsHeader}</h2>
                     <ItemsList items={films} />       
                     <LikePanel /> 
-                    <FooterPanel />
                 </div>
             )
         }
@@ -160,6 +158,7 @@
                 <span>Likes: <b>{myState.likes}</b></span>&nbsp;
                 <button onClick={onLike}>Like</button>
                 <button onClick={onResetLikes}>Reset like count</button>
+                <FooterPanel />
             </div>
         )
     }
